@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ chanel.name }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if search %}
+        <h1>Результаты поиска по запросу {{ search }}:</h1>
+        {% if results %}
+            {% for result in chanels %}
+                <div class="card">
+                    <div class="card_img">
+                        <img src="{{ result.photo.url }}" alt="" class="card_img2">
+                    </div> 
+                    <div class="card_text">
+                        {{ result.name }}
+                    </div>
+                    <a  href="{% url 'page' result.id %}" class="btn-form1">
+                      Обзор
+                    </a> 
+                    <a href="#" class="btn-form2">
+                      На сайт
+                    </a> 
+                  </div>
+                  {% endfor %}
+                  {% endif %}
+                {% if chanels.has_previous %}
+                    <a href="?page={{chanels.previous_page_number}}&pk={{ search }}">Предыдущая страница</a>
+                {% endif %}
+                Страница {{ chanels.number }} из {{ chanels.paginator.num_pages }}
+                {% if chanels.has_next %}
+                    <a href="?page={{chanels.next_page_number}}&pk={{ search }}">Следующая страница</a>
+                {% endif %}
+        {% else %}
+            <p>По вашему запросу ничего не найдено</p>
+        {% endif %}
+    {% endif %}
+
+</div>
+{% endblock %}
